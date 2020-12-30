@@ -1,3 +1,6 @@
+# Changes 
+The frames of IMU sensor are fixed
+
 # Overview
 This ROS package creates a ROS node which publishes raw data from the Thalmic Labs Myo Armband (tested with firmware version 1.1.4.2, 1.0.2.2, probably working with anythong >1.0) in the form of both standard and custom ROS messages. These messages can be subscribed to and used in standard ROS architectures.
 
