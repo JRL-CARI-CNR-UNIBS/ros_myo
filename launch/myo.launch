@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 <launch>
-
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0 2 0 0 0 0 1 base imu_global" />
   <!-- user args -->
   <arg name="port" default="/dev/ttyACM0" doc="Port used by the Myo dongle. Check it with 'ls /dev/' and look for ttyACM0 for instance. You need to provide the full path." />
   <arg name="rviz" default="true" doc="rviz visualization or not"/>
 
   <!-- myo ros node -->
-  <node pkg="ros_myo" name="myo_raw" type="myo-rawNode.py" args="$(arg port)" output="screen"/>
-
+  <node if="$(eval env('ROS_DISTRO')=='noetic')" pkg="ros_myo" name="myo_raw" type="myo-rawNode3.py" args="$(arg port)" output="screen"/>
+  <node unless="$(eval env('ROS_DISTRO')=='noetic')" pkg="ros_myo" name="myo_raw" type="myo-rawNode2.py" args="$(arg port)" output="screen"/>
+  <!--<include file="$(find ros_myo)/launch/myo_imu_ekf.launch"/>-->
   <!--visualization-->
   <group if="$(arg rviz)">
       <node

@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  robot_localization
 )
 
 
@@ -36,6 +37,9 @@ catkin_package()
 ## Install ##
 #############
 
+#catkin_install_python(PROGRAMS scripts/myo-rawNode3.py
+#  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
