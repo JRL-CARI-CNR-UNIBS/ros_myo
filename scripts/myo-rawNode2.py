@@ -33,7 +33,8 @@ class MyoRaw(object):
         self.imu_handlers = []
         self.arm_handlers = []
         self.pose_handlers = []
-
+        self.pose_global = MyoPose()
+        
     def detect_tty(self):
         for p in comports():
             if re.search(r'PID=2458:0*1', p[2]):
@@ -160,12 +161,13 @@ class MyoRaw(object):
                     self.on_arm(MyoArm(MyoArm.UNKNOWN, MyoArm.UNKNOWN))
                 elif typ == 3:  # pose
                     if val == 255:
-                        pose = MyoPose(0)
+                        self.pose_global = MyoPose(0)
                     else:
-                        pose = MyoPose(val + 1)
-                    self.on_pose(pose)
+                        self.pose_global = MyoPose(val + 1)
+                    self.on_pose(self.pose_global)
             else:
                 print('data with unknown attr: %02X %s' % (attr, p))
+            self.on_pose(self.pose_global)
 
         self.bt.add_handler(handle_data)
 
