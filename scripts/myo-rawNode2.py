@@ -9,7 +9,7 @@ from common import pack, unpack, multiord
 from bluetooth import BT
 import rospy
 from tf.transformations import euler_from_quaternion
-from std_msgs.msg import String, Header, UInt8
+from std_msgs.msg import String, Header, UInt8, Float64
 from geometry_msgs.msg import Quaternion, Vector3, PoseStamped, Point, Pose, Twist, TwistStamped, TransformStamped	
 from sensor_msgs.msg import Imu
 from ros_myo.msg import MyoArm, MyoPose, EmgArray
@@ -288,6 +288,7 @@ if __name__ == '__main__':
     emgPub = rospy.Publisher('~myo_emg', EmgArray, queue_size=1)
     armPub = rospy.Publisher('~myo_arm', MyoArm, queue_size=1, latch=True)
     gestPub = rospy.Publisher('~myo_gest', MyoPose, queue_size=1)
+    gestPub2 = rospy.Publisher('~myo_gest_std', Float64, queue_size=1)
     gestStrPub = rospy.Publisher('~myo_gest_str', String, queue_size=1)
     posePub = rospy.Publisher('~pose', PoseStamped, queue_size=1)
     accTwistPub = rospy.Publisher('~acc_twist_imu', TwistStamped, queue_size=1)
@@ -406,6 +407,9 @@ if __name__ == '__main__':
     # Publish the value of an enumerated gesture
     def proc_pose(myo_pose):
         gestPub.publish(myo_pose)
+        #Float64 float64_pose
+        #float64_pose.data=myo_pose.pose
+        gestPub2.publish(myo_pose.pose)
         p = myo_pose.pose
         if p == 0:
             s = "UNKNOWN"
